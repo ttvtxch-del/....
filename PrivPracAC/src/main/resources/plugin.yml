@@ -1,0 +1,21 @@
+name: PrivPracAC
+version: ${project.version}
+main: com.privprac.ac.PrivPracAC
+api-version: '1.21'
+description: CPvP anti-cheat that detects Auto Crystal and Crystal Aura.
+authors: [PrivPrac]
+
+commands:
+  privprac:
+    description: PrivPrac AC main command
+    aliases: [pac]
+    usage: /privprac <reload|alerts|vl|reset>
+    permission: privprac.admin
+
+permissions:
+  privprac.admin:
+    default: op
+  privprac.alerts:
+    default: op
+  privprac.bypass:
+    default: false

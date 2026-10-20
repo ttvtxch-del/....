@@ -1,0 +1,72 @@
+# ===================== PrivPrac AC =====================
+
+prefix: "&8[&dPrivPrac AC&8] "
+
+# Staff with privprac.alerts see flags once a check reaches this VL.
+alert-vl: 2.0
+
+# Violation level lost per minute (per check).
+decay-per-minute: 6.0
+
+# Cancel the hit / placement when a check fails (reduces cheater impact while you tune).
+cancel-flagged-actions: true
+
+# Skip look/reach/wall checks for players above this ping (ms) to avoid false flags.
+max-ping: 350
+
+punishment:
+  # Leave off while you tune; alerts only.
+  enabled: false
+  vl: 15.0
+  commands:
+    - "kick %player% [PrivPrac AC] Unfair advantage detected (%check%)"
+
+checks:
+  # --- Breaking crystals ---
+  break-rate:
+    max-per-second: 20
+  multi-break:
+    # Breaking 2+ different crystals in the same tick = Crystal Aura multi-target.
+    enabled: true
+  speed:
+    # A legit client can't hit a crystal before the spawn packet reaches it (~1 ping).
+    # Flags if place->break time is lower than (ping - tolerance), or under min-ms.
+    min-ms: 10
+    ping-tolerance-ms: 40
+  consistency:
+    # Humans have jitter. A bot places->breaks with near-identical timing.
+    samples: 8
+    max-std-dev-ms: 6.0
+    max-mean-ms: 200.0
+  angle:
+    # Hitbox grow (blocks) to forgive lag/rotation desync. Bigger = fewer false flags.
+    hitbox-expand: 0.4
+  reach:
+    max: 4.6
+  wall:
+    enabled: true
+  snap:
+    # Total yaw+pitch change (degrees) in the ~75ms before a crystal hit.
+    degrees: 100.0
+
+  # --- Placing crystals ---
+  place-rate:
+    max-per-second: 20
+  place-reach:
+    max: 6.0
+  place-angle:
+    enabled: true
+
+# Violation weights (added per failed check)
+weights:
+  break-rate: 1.0
+  multi-break: 2.0
+  speed: 1.5
+  consistency: 2.0
+  angle: 2.0
+  reach: 1.5
+  wall: 1.0
+  snap: 1.0
+  place-rate: 1.0
+  place-reach: 1.5
+  place-angle: 1.0
